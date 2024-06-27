@@ -9,6 +9,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.linear_model import Perceptron
 from sklearn.metrics import accuracy_score, confusion_matrix, ConfusionMatrixDisplay, precision_score, recall_score, f1_score
+from sklearn.metrics import classification_report
 
 
 def main():
@@ -450,6 +451,15 @@ def show_model():
         
         st.markdown("---")
         
+        st.write("### Memasukkan Data Training ke dalam model Perceptron")
+        
+        st.write("Model Perceptron yang dibentuk menggunakan fungsi aktifasi Undak Biner")
+        st.latex(r'y = \begin{cases} 0 & \text{jika } x \leq 0 \\ 1 & \text{jika } x > 0 \end{cases}')
+        
+        
+        st.markdown("---")
+        
+        
         st.header("Menampilkan Hasil Modelling Perceptron")
         
         clf_perceptron = Perceptron(max_iter=1000)
@@ -531,23 +541,29 @@ def show_evaluasi():
         f1 = f1_score(y_test, y_pred_perceptron, average='weighted') * 100
         
         
-        st.header("Performance Metrics for Perceptron Model")
+        st.write("### Performance Metrics for Perceptron Model")
         col1, col2 = st.columns(2,vertical_alignment='top')
 
         with col1 :
-            st.write(f"### Accuracy: {accuracy:.2f}%")
+            st.write(f"#### Accuracy: {accuracy:.2f}%")
             
         with col2 :
-            st.write(f"### Precision: {precision:.2f}%")
+            st.write(f"#### Precision: {precision:.2f}%")
         
         col1, col2 = st.columns(2,vertical_alignment='top')
         
         with col1 :
-            st.write(f"### Recall: {recall:.2f}%")
+            st.write(f"#### Recall: {recall:.2f}%")
         
         with col2 :
-            st.write(f"### F1 Score: {f1:.2f}%")
+            st.write(f"#### F1 Score: {f1:.2f}%")
         
+        st.markdown("---")
+        st.write("### Calssification Report")
+        
+        report = classification_report(y_test, y_pred_perceptron)
+        
+        st.markdown(f"```\n{report}\n```")
 
 def show_testing():
     with open("model/perceptron_pickle", "rb") as r:
@@ -609,7 +625,7 @@ def show_testing():
 
         with col2:
             st.subheader('Prediction:')
-            st.write(f"{result}")
+            st.write(f":blue[{result}]")
             
         # st.write(f"Umur: {age}, Jenis Kelamin: {gender}, Foto Toraks: {ft}, Status HIV: {hiv}, Riwayat Diabetes: {diabet}, Hasil TCM: {tcm}")
     
